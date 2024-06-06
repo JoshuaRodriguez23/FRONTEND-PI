@@ -1,7 +1,17 @@
 .titleLogin {
   text-align: left;
+  margin-top: 8%;
 }
 .logoLogin {
-  width: '20%';
-  margin-top: '20px';
+  width: 60%;
+  margin-top: 20px;
+  margin: 0 auto;
+}
+.btnGoogleLogin {
+  width: 100%;  
+  border-color: #fbbf89 !important;
+  color: #717171 !important;
+}
+.btnGoogleLogin:hover{
+  color: black;
 }
