@@ -1,28 +1,23 @@
-// import { GoogleOAuthProvider } from "@react-oauth/google";
-import Login from './pages/Login.tsx';
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from './pages/Login';
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<div/>}>
-      <Route path="dashboard" element={<Login />} />
-      {/* ... etc. */}
-    </Route>
-  )
-);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login/>, // Componente de prueba para la página principal
+    children: [
+      {
+        // path: "dashboard",
+        // element: <Login />,
+      },
+    ],
+  },
+]);
 
-  
 function App() {
-  return(
-  <>
-    <RouterProvider router={router} />  
-  </>
-  )
+  return (
+    <RouterProvider router={router} />
+  );
 }
 
 export default App;
