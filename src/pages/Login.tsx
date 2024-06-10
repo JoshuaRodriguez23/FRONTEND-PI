@@ -1,26 +1,35 @@
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import '../assets/styles/Login.css';
-import { Button, Grid } from '@mui/material';
-import { useAuth, _loginWithGoogle } from '../context/AuthContext.jsx';
 import GoogleIcon from '@mui/icons-material/Google';
+import { Button, Grid } from '@mui/material';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import '../assets/styles/Login.css';
+import { useAuth } from '../context/AuthContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const auth = useAuth();
+  const navigate = useNavigate();
 
-  const handleGoogle = (e: any) => {
+  const handleGoogle = async (e: any) => {
     e.preventDefault();
-    auth.loginWithGoogle();
-    const { email } = auth.user || {};
-    if (!email) return [];
+    try {
+      await auth.loginWithGoogle();
 
-    const arrayResults = email.split('@');
+      const { email } = auth.user || {};
 
-    if (arrayResults[1] !== 'upqroo.edu.mx') {
-      console.log('No eres estudiante');
-      auth.logout();
-    } else {
-      console.log('Bienvenido');
+      if (!email) return [];
+
+      const arrayResults = email.split('@');
+
+      if (arrayResults[1] !== 'upqroo.edu.mx') {
+        console.log('No eres estudiante');
+        auth.logout();
+      } else {
+        navigate('/Home');
+        console.log('Bienvenido');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
     }
   };
 
@@ -29,7 +38,7 @@ function Login() {
   };
 
   return (
-    <>
+    <div className="login-container">
       <Box
         sx={{
           display: 'flex',
@@ -39,8 +48,8 @@ function Login() {
           minHeight: '85vh',
           '& > :not(style)': {
             m: 2,
-            width: 400,
-            height: 300
+            width: { xs: '90%', sm: 400 },
+            height: { xs: 'auto', sm: 300 }
           }
         }}>
         <Paper
@@ -56,14 +65,23 @@ function Login() {
             alt="Logo UPQROO"
             style={{ padding: '15px' }}
           />
-          <h2 className="titleLogin">Iniciar Sesión</h2>
-          <p>Con una cuenta institucional(@upqroo.edu.mx)</p>
           <Grid
             container
             direction="row"
             justifyContent="center"
             alignItems="center">
-            <Grid item xs={10} md={10} style={{marginTop: '15px' }}>
+            <Grid item xs={10} md={10}>
+              <h2>Iniciar Sesión</h2>
+            </Grid>
+            <a>Con una cuenta institucional(@upqroo.edu.mx)</a>
+          </Grid>
+
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center">
+            <Grid item xs={10} md={10} style={{ marginTop: '25px' }}>
               <Button
                 startIcon={<GoogleIcon />}
                 variant="outlined"
@@ -83,7 +101,7 @@ function Login() {
           </Grid>
         </Paper>
       </Box>
-    </>
+    </div>
   );
 }
 

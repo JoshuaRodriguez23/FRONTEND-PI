@@ -1,12 +1,6 @@
 :root {
   font-family: Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 0.5;
   font-weight: 400;
-
-  background-image: url(../public/LogoCafe.jpg);
-  background-size: cover;
-  object-fit: contain;
-  background-position: center;
 }
 /* 
 @media only screen and (max-width: 600px) {

@@ -16,17 +16,13 @@ export const useAuth = () => {
   }
   return context;
 };
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState('');
-  
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) {
-        console.log('no hay usuario suscrito');
-        setUser('');
-      } else {
-        setUser(currentUser);
-      }
+      setUser(currentUser); 
     });
     return () => subscribed();
   }, []);
@@ -37,8 +33,8 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    const response = await signOut(auth);
-    console.log(response);
+    await signOut(auth);
+    setUser(null); 
   };
 
   return (
@@ -47,7 +43,8 @@ export function AuthProvider({ children }) {
         loginWithGoogle,
         logout,
         user
-      }}>
+      }}
+    >
       {children}
     </authContext.Provider>
   );
